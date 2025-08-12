@@ -36,15 +36,15 @@ public class Enemy : MonoBehaviour
 
         Reflect();
 
-        transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, target.position) < distance)
+        if (Vector2.Distance(transform.position, target.position) < distance)
             _currentPointIndex = ++_currentPointIndex % _points.Length;
     }
 
     private void Reflect()
     {
-        Vector3 direction = _points[_currentPointIndex].position - transform.position;
+        Vector2 direction = _points[_currentPointIndex].position - transform.position;
         _sprite.flipX = direction.x > 0;
     }
 }
