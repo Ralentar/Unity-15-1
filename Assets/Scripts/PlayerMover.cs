@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class Mover : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _currentSpeed = 5;
     [SerializeField] private float _maxSpeed = 5;
@@ -32,21 +32,21 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckGroundStatus();
+        HandleGroundStatus();
         Move();
         Jump();
     }
 
     private void OnEnable()
     {
-        _inputHandler.OnMoveInput += HandleMoveInput;
-        _inputHandler.OnJumpInput += HandleJumpInput;
+        _inputHandler.Moving += HandleMoveInput;
+        _inputHandler.Jumped += HandleJumpInput;
     }
 
     private void OnDisable()
     {
-        _inputHandler.OnMoveInput -= HandleMoveInput;
-        _inputHandler.OnJumpInput -= HandleJumpInput;
+        _inputHandler.Moving -= HandleMoveInput;
+        _inputHandler.Jumped -= HandleJumpInput;
     }
 
     private void HandleMoveInput(Vector2 moveInput)
@@ -95,6 +95,19 @@ public class Mover : MonoBehaviour
         _animationHandler.UpdateRunAnimation(isRunning);
     }
 
+    private void HandleGroundStatus()
+    {
+        float distance = 0.2f;
+        float radius = 1f;
+        Vector2 checkPoint = new Vector2(transform.position.x, transform.position.y) + Vector2.down;
+
+        RaycastHit2D hitDown = Physics2D.Raycast(checkPoint, Vector2.down, distance);
+        Collider2D hitCollider = Physics2D.OverlapCircle(transform.position, radius);
+
+        SetGroundedState(hitDown.collider != null);
+        SetSpeed(hitCollider != null);
+    }
+
     private void SetGroundedState(bool state)
     {
         _isGrounded = state;
@@ -114,18 +127,5 @@ public class Mover : MonoBehaviour
             limitSpeed++;
 
         _currentSpeed = Mathf.MoveTowards(_currentSpeed, limitSpeed, _maxSpeed * Time.deltaTime);
-    }
-
-    private void CheckGroundStatus()
-    {
-        float distance = 0.2f;
-        float radius = 1f;
-        Vector2 checkPoint = new Vector2(transform.position.x, transform.position.y) + Vector2.down;
-
-        RaycastHit2D hitDown = Physics2D.Raycast(checkPoint, Vector2.down, distance);
-        Collider2D hitCollider = Physics2D.OverlapCircle(transform.position, radius);
-
-        SetGroundedState(hitDown.collider != null);
-        SetSpeed(hitCollider != null);
     }
 }

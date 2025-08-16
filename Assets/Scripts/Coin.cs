@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public event Action<Vector2> Collected;
+    public event Action<Coin> Collected;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Collect()
     {
-        Collected?.Invoke(transform.position);
+        Collected?.Invoke(this);
         Destroy(gameObject);
     }
 }

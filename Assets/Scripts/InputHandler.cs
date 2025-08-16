@@ -7,8 +7,8 @@ public class InputHandler : MonoBehaviour
     private const KeyCode MoveRightKey = KeyCode.D;
     private const KeyCode JumpKey = KeyCode.Space;
 
-    public event Action<Vector2> OnMoveInput;
-    public event Action OnJumpInput;
+    public event Action<Vector2> Moving;
+    public event Action Jumped;
 
     private void Update()
     {
@@ -23,9 +23,9 @@ public class InputHandler : MonoBehaviour
         if (Input.GetKey(MoveRightKey) && Input.GetKey(MoveLeftKey))
             moveInput.x = 0;
 
-        OnMoveInput?.Invoke(moveInput);
+        Moving?.Invoke(moveInput);
 
         if (Input.GetKeyDown(JumpKey))
-            OnJumpInput?.Invoke();
+            Jumped?.Invoke();
     }
 }

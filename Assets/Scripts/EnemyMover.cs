@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class Enemy : MonoBehaviour
+public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private Transform _path;
     [SerializeField] private float _speed = 3;
@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < _path.childCount; i++)
             _points[i] = _path.GetChild(i);
+
+        Reflect();
     }
 
     private void Update()
@@ -31,16 +33,20 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
-        float distance = 0.1f;
-        Transform target = _points[_currentPointIndex];
+        Vector2 targetWaypoint = _points[_currentPointIndex].position;
 
-        Reflect();
+        transform.position = Vector2.MoveTowards(transform.position, targetWaypoint, _speed * Time.deltaTime);
 
-        transform.position = Vector2.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, target.position) < distance)
-            _currentPointIndex = ++_currentPointIndex % _points.Length;
+        if (transform.position == (Vector3)targetWaypoint)
+            ChangeTarget(); 
     }
+
+    private void ChangeTarget()
+    {
+        _currentPointIndex = ++_currentPointIndex % _points.Length;
+        Reflect();
+    }
+
 
     private void Reflect()
     {

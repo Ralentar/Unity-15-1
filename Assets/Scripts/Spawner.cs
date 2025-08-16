@@ -20,9 +20,10 @@ public class Spawner : MonoBehaviour
             Spawn(_spawnPoints[i].transform.position);
     }
 
-    private void CoinCollected(Vector2 position)
+    private void CoinCollected(Coin coin)
     {
-        StartCoroutine(SpawnCoin(position));
+        coin.Collected -= CoinCollected;
+        StartCoroutine(SpawnCoin(coin.transform.position));
     }
 
     private IEnumerator SpawnCoin(Vector2 position)
