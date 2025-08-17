@@ -91,8 +91,8 @@ public class PlayerMover : MonoBehaviour
         bool isJumping = !_isGrounded;
         bool isRunning = _currentMoveInput.x != 0;
 
-        _animationHandler.UpdateJumpAnimation(isJumping);
-        _animationHandler.UpdateRunAnimation(isRunning);
+        _animationHandler.UpdateJumpAnimation();
+        _animationHandler.UpdateRunAnimation();
     }
 
     private void HandleGroundStatus()
