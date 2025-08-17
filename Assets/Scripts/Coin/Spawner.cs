@@ -20,9 +20,9 @@ public class Spawner : MonoBehaviour
             Spawn(_spawnPoints[i].transform.position);
     }
 
-    private void CoinCollected(Coin coin)
+    private void OnCoinCollected(Coin coin)
     {
-        coin.Collected -= CoinCollected;
+        coin.Collected -= OnCoinCollected;
         StartCoroutine(SpawnCoin(coin.transform.position));
     }
 
@@ -36,6 +36,6 @@ public class Spawner : MonoBehaviour
     private void Spawn(Vector2 position)
     {
         Coin coin = Instantiate(_coinPrefab, position, Quaternion.identity);
-        coin.Collected += CoinCollected;
+        coin.Collected += OnCoinCollected;
     }
 }
