@@ -3108,6 +3108,7 @@ GameObject:
   - component: {fileID: 1180245203}
   - component: {fileID: 1180245202}
   - component: {fileID: 1180245207}
+  - component: {fileID: 1180245208}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -3279,6 +3280,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _path: {fileID: 1884289229}
   _speed: 3
+--- !u!114 &1180245208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180245201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838d30f38057b0349b0fadf34426dd31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1551576130
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,9 +3577,10 @@ GameObject:
   - component: {fileID: 2001814792}
   - component: {fileID: 2001814791}
   - component: {fileID: 2001814796}
+  - component: {fileID: 2001814799}
   - component: {fileID: 2001814798}
   - component: {fileID: 2001814797}
-  - component: {fileID: 2001814799}
+  - component: {fileID: 2001814800}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3773,6 +3787,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3f0814bb9ccc944c800ee0fa5d1b55a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2001814800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001814790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838d30f38057b0349b0fadf34426dd31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2042472747
