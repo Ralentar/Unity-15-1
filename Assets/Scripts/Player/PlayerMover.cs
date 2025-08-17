@@ -9,18 +9,15 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _jumpForce = 40;
 
     private Rigidbody2D _rigidbody2d;
-    private SpriteRenderer _sprite;
     private AnimationHandler _animationHandler;
     private InputHandler _inputHandler;
 
     private Vector2 _currentMoveInput;
     private bool _isGrounded;
-    private bool _isJumpAllowed;
 
     private void Awake()
     {
         _rigidbody2d = GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
         _animationHandler = GetComponent<AnimationHandler>();
         _inputHandler = GetComponent<InputHandler>();
     }
@@ -34,7 +31,6 @@ public class PlayerMover : MonoBehaviour
     {
         HandleGroundStatus();
         Move();
-        Jump();
     }
 
     private void OnEnable()
@@ -49,18 +45,15 @@ public class PlayerMover : MonoBehaviour
         _inputHandler.Jumped -= HandleJumpInput;
     }
 
-    private void HandleMoveInput(Vector2 moveInput)
+    public void HandleMoveInput(Vector2 moveInput)
     {
-        if (_currentMoveInput == moveInput)
-            return;
-
         _currentMoveInput = moveInput;
-        Reflect();
     }
 
     private void HandleJumpInput()
     {
-        _isJumpAllowed = _isGrounded;
+        if (_isGrounded)
+            Jump();
     }
 
     private void Move()
@@ -68,22 +61,9 @@ public class PlayerMover : MonoBehaviour
         _rigidbody2d.velocity = new Vector2(_currentMoveInput.x * _currentSpeed, _rigidbody2d.velocity.y);
     }
 
-    private void Reflect()
-    {
-        if (_currentMoveInput.x > 0)
-            _sprite.flipX = false;
-
-        if (_currentMoveInput.x < 0)
-            _sprite.flipX = true;
-    }
-
     private void Jump()
     {
-        if (_isJumpAllowed == false)
-            return;
-
         _rigidbody2d.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-        _isJumpAllowed = false;
     }
 
     private void UpdateAnimation()
@@ -91,8 +71,8 @@ public class PlayerMover : MonoBehaviour
         bool isJumping = !_isGrounded;
         bool isRunning = _currentMoveInput.x != 0;
 
-        _animationHandler.UpdateJumpAnimation();
-        _animationHandler.UpdateRunAnimation();
+        _animationHandler.UpdateJumpAnimation(isJumping);
+        _animationHandler.UpdateRunAnimation(isRunning);
     }
 
     private void HandleGroundStatus()
@@ -104,13 +84,8 @@ public class PlayerMover : MonoBehaviour
         RaycastHit2D hitDown = Physics2D.Raycast(checkPoint, Vector2.down, distance);
         Collider2D hitCollider = Physics2D.OverlapCircle(transform.position, radius);
 
-        SetGroundedState(hitDown.collider != null);
+        _isGrounded = hitDown.collider != null;
         SetSpeed(hitCollider != null);
-    }
-
-    private void SetGroundedState(bool state)
-    {
-        _isGrounded = state;
     }
 
     private void SetSpeed(bool hasContact)

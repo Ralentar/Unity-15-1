@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-    private const string IsJumping = "isJumping";
-    private const string IsRunning = "isRunning";
+    private readonly int IsJumping = Animator.StringToHash(nameof(IsJumping));
+    private readonly int IsRunning = Animator.StringToHash(nameof(IsRunning));
 
     private Animator _animator;
 
